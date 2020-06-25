@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://fep.vwgroup.com/system/2.0/sdk"
+    xmlns:fep="http://fep.vwgroup.com/common/2.0/types"
+    xmlns:fep_sdk="http://fep.vwgroup.com/system/2.0/sdk" version="2.0.0" vc:minVersion="1.1"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+
+    <xs:import namespace="http://fep.vwgroup.com/common/2.0/types"
+        schemaLocation="../../common/2.0/fep_types.xsd"/>
+
+    <xs:element name="system">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="schema_version" type="fep:version_type"/>
+                <xs:element name="name" type="fep:non_empty_norm_string">
+                    <xs:annotation>
+                        <xs:documentation>Human readable name of the FEP System</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="id" type="fep:non_empty_norm_string">
+                    <xs:annotation>
+                        <xs:documentation>Part of the unique system identification</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Transfer information about the system to the user</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="version" type="fep:version_type">
+                    <xs:annotation>
+                        <xs:documentation>Version of the FEP System Description file</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="author" type="fep:non_empty_norm_string">
+                    <xs:annotation>
+                        <xs:documentation>Author of the FEP System Description file</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="participants">
+                    <xs:annotation>
+                        <xs:documentation>
+                            List of all participant addresses with the element instances are loaded!
+                            Within FEP 2 the participants address and the element ids are the same.
+                            - We do not describe participants in here this now here - 
+                            Within FEP 3 the participants address might be different to the elements id (because we change the state machine!)
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="participant" type="fep_sdk:participant" minOccurs="0"
+                                maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other"
+                    processContents="skip"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="participant">
+        <xs:sequence>
+            <xs:element name="address" type="fep:non_empty_norm_string"/>
+            <xs:element name="init_priority" type="xs:unsignedInt"/>
+            <xs:element name="start_priority" type="xs:unsignedInt"/>
+            <xs:element name="element_instance">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="fep:non_empty_norm_string"/>
+                        <xs:element name="type" type="fep:non_empty_norm_string"/>
+                        <xs:element name="mappings" minOccurs="0">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="input" type="fep_sdk:file_reference" minOccurs="0"/>
+                                    <xs:element name="output" type="fep_sdk:file_reference" minOccurs="0"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="timing" type="fep_sdk:file_reference" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="file_reference">
+        <xs:sequence>
+            <xs:element name="file_reference" type="xs:anyURI"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

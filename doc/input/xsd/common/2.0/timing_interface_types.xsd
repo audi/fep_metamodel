@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0.0" vc:minVersion="1.1"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+    xmlns:fep="http://fep.vwgroup.com/common/2.0/types">
+
+    <xs:import namespace="http://fep.vwgroup.com/common/2.0/types" schemaLocation="fep_types.xsd"/>
+
+    <xs:simpleType name="run_realtime_violation_type">
+        <xs:restriction base="xs:normalizedString">
+            <xs:annotation>
+                <xs:documentation> 
+                    TS_IGNORE_RUNTIME_VIOLATION : Error will be ignored
+                    TS_WARN_ABOUT_RUNTIME_VIOLATION: A warning incident will be published when an operational time violation is detected
+                    TS_SKIP_OUTPUT_PUBLISH : Configured outputs will not be published when an operational time violation is detected
+                    TS_SET_STM_TO_ERROR : The job will abort and the error state is set
+                </xs:documentation>
+            </xs:annotation>
+            <xs:enumeration value="TS_IGNORE_RUNTIME_VIOLATION"/>
+            <xs:enumeration value="TS_WARN_ABOUT_RUNTIME_VIOLATION"/>
+            <xs:enumeration value="TS_SKIP_OUTPUT_PUBLISH"/>
+            <xs:enumeration value="TS_SET_STM_TO_ERROR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="job">
+        <xs:sequence>
+            <xs:element name="name" type="fep:non_empty_norm_string"/>
+            <xs:element name="cycle_time" type="xs:unsignedLong">
+                <xs:annotation>
+                    <xs:documentation>microseconds in simulation time</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cycle_delay_time" type="xs:unsignedLong">
+                <xs:annotation>
+                    <xs:documentation>microseconds in simulation of the delay to the cycle begin
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="max_run_realtime" type="xs:unsignedLong">
+                <xs:annotation>
+                    <xs:documentation>0 = do not watch; 
+                        >0 = the run_realtime will be watched (can be cycle_time as maximum)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="run_realtime_violation" type="run_realtime_violation_type"/>
+
+            <xs:element maxOccurs="1" minOccurs="0" name="data_references">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="inputs">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element maxOccurs="unbounded" minOccurs="0"
+                                        name="input_reference" type="data_reference"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="outputs">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element maxOccurs="unbounded" minOccurs="0"
+                                        name="output_reference" type="data_reference"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="timing_interface_type">
+        <xs:sequence>
+            <xs:element name="jobs">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="job" type="job"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="data_reference">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The reference to the input or output in data
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="queue_size" type="xs:unsignedLong">
+                <xs:annotation>
+                    <xs:documentation>the queue size used for scheduling</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

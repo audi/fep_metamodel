@@ -1,0 +1,5 @@
+openProject(GETENV("REQTIFY_PROJECT_FILEPATH"), "RELOAD_ALL").{
+	TMP strReportDir      := GETENV("REQTIFY_PROJECT_RESULTS_DIR");
+    generateReport("Generic Coverage Report",    strReportDir + "/TPCTRC_CoverageReport.xlsx",    "TPC_TRC_Template.xlsx");
+    generateReport("Generic Test Status Report",    strReportDir + "/TPCTRC_GenericTestStatusReport.xlsx",    "TPC_TRC_Template.xlsx");
+}

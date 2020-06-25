@@ -1,0 +1,88 @@
+common:
+  files:
+    - doc/xsd/ddl/4.0/ddl4.xsd
+    - doc/xsd/mapping/1.0/mapping_configuration.xsd
+    - doc/xsd/common/2.0/conan_types.xsd
+    - doc/xsd/common/2.0/fep_types.xsd
+    - doc/xsd/common/2.0/timing_interface_types.xsd
+    - doc/xsd/element/1.0/fep_element_example_1.0.fep_element_type
+    - doc/xsd/element/1.0/fep_element_type_1.0.xsd
+    - doc/xsd/element/1.1/fep_element_example_1.1.fep_element_type
+    - doc/xsd/element/1.1/fep_element_type_1.1.xsd
+    - doc/xsd/element/2.0/example/default_example/ddl/example.ddl
+    - doc/xsd/element/2.0/example/default_example/example_2.0.fep_element_timing
+    - doc/xsd/element/2.0/example/default_example/example_2.0.fep_element_type
+    - doc/xsd/element/2.0/example/sdk_timing_example/fep_element_driver/fep_element_driver.fep_element_type
+    - doc/xsd/element/2.0/example/sdk_timing_example/fep_element_environment/fep_element_environment.fep_element_type
+    - doc/xsd/element/2.0/example/sdk_timing_example/fep_element_observer/fep_element_observer.fep_element_type
+    - doc/xsd/element/2.0/example/sdk_timing_example/fep_element_sensor_back/fep_element_sensor_back.fep_element_type
+    - doc/xsd/element/2.0/example/sdk_timing_example/fep_element_sensor_front/fep_element_sensor_front.fep_element_type
+    - doc/xsd/element/2.0/example/sdk_timing_example/fep_element_timing_master/fep_timing_master.fep_element_type
+    - doc/xsd/element/2.0/fep_element_timing.xsd
+    - doc/xsd/element/2.0/fep_element_type.xsd
+    - doc/xsd/system/1.0/fep_properties_1.0.xsd
+    - doc/xsd/system/1.0/fep_system_sdk_1.0.xsd
+    - doc/xsd/system/1.0/fep_system_sdk_example_1.0.fep_system_sdk
+    - doc/xsd/system/1.0/fep2_launch_config1.0.xsd
+    - doc/xsd/system/1.1/fep_system_sdk_1.1.xsd
+    - doc/xsd/system/1.1/fep_system_sdk_example_1.1.fep_system_sdk
+    - doc/xsd/system/2.0/example/default_example/example_2.0.fep_system_properties
+    - doc/xsd/system/2.0/example/default_example/example_2.0.fep_system_sdk
+    - doc/xsd/system/2.0/fep_system_properties.xsd
+    - doc/xsd/system/2.0/fep_system_sdk.xsd
+    - doc/changelog.md
+    - LICENSE.md
+    - doc/license/CONTRIBUTION.md
+    - doc/license/MPL2.0.txt
+    - doc/license/mpl.md
+    - doc/license/used_licenses/a_util/MPL2.0.txt
+    - doc/license/used_licenses/a_util/licenses.txt
+    - doc/license/used_licenses/a_util/used_oss.md
+    - doc/license/used_licenses/ddl/MPL2.0.txt
+    - doc/license/used_licenses/ddl/mpl.md
+    - doc/license/used_licenses/ddl/used_licenses.md
+    - doc/license/used_licenses/ddl/used_licenses/a_util/MPL2.0.txt
+    - doc/license/used_licenses/ddl/used_licenses/a_util/licenses.txt
+    - doc/license/used_licenses/ddl/used_licenses/a_util/used_oss.md
+    - doc/license/used_licenses/ddl/used_licenses/list_used_licenses.md
+    - fep_metamodel-config-version.cmake
+    - fep_metamodel-config.cmake
+    - include/fep_metamodel/fep_element.h
+    - include/fep_metamodel/fep_system.h
+    - README.md
+
+windows_debug:
+    conditions:
+        my_conds:
+            os: Windows
+            build_type: Debug
+    files:
+      - lib/fep_metamodeld1.0.lib
+windows_release:
+    conditions:
+        win_rel:
+            os: Windows
+            build_type: Release
+        win_rwdi:
+            os: Windows
+            build_type: RelWithDebInfo
+    files:
+      - lib/fep_metamodel1.0.lib
+
+linux_debug:
+    conditions:
+        my_conds:
+            os: Linux
+            build_type: Debug
+    files:
+      - lib/libfep_metamodeld1.0.a
+linux_release:
+    conditions:
+        lin_rel:
+            os: Linux
+            build_type: Release
+        lin_rwdi:
+            os: Linux
+            build_type: RelWithDebInfo
+    files:
+      - lib/libfep_metamodel1.0.a

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<system xmlns="http://fep.vwgroup.com/system/2.0/sdk">
+    <schema_version>2.0.0</schema_version>
+    <name>Signal Mapping System</name> <!-- this has no functionality within FEP 2 but will in FEP 3 -->
+    <id>signal_mapping_system</id> <!-- this is only for documentation (no functionality within FEP 2) -->
+    <description>This is an example of a FEP system.</description>
+    <version>1.0.0</version> <!-- this is only for documentation (no functionality within FEP 2) -->
+    <author>fep_team</author>
+    <participants> <!-- this was been changed to participant because systems are a collection of participants with loaded elements!-->
+        <participant>
+            <!-- This id has to be unique in the whole system (in FEP 2)-->
+            <!-- This is the element id in FEP 2 by default (could be different, but is not used like that at the moment!)-->
+            <address>x1</address>
+            <init_priority>1</init_priority>
+            <start_priority>1</start_priority>
+            <!-- This id has to be unique in the whole system -->
+            <element_instance>
+                <id>x1</id>
+                <type>type_id</type>
+                <mappings>
+                    <input>
+                        <!--see example: map_x1_i: m-->
+                        <file_reference>x1_input.map</file_reference>
+                    </input>
+                    <output>
+                        <!--see example: map_x1_o: A, B, C-->
+                        <file_reference>x1_output.map</file_reference>
+                    </output>
+                </mappings>
+                <timing> 
+                    <!--see doc/xsd/element/2.0/example/example_2.0.fep_element_timing for a example of this file type-->
+                    <file_reference>x1.fep_element_timing</file_reference>
+                </timing>
+            </element_instance>
+        </participant>
+        <participant>
+            <!-- This id has to be unique in the whole system for now -->
+            <address>x2</address>
+            <init_priority>2</init_priority>
+            <start_priority>2</start_priority>
+            <element_instance>
+                <!-- This id has to be unique in the whole system -->
+                <id>x2</id>
+                <type>type_id</type>
+                <mappings>
+                    <output>
+                        <!--see example: map_x2_o: A, B, C-->
+                        <file_reference>x2_output.map</file_reference>
+                    </output>
+                </mappings>
+            </element_instance>
+        </participant>
+        <participant>
+            <address>y1</address>
+            <init_priority>3</init_priority>
+            <start_priority>3</start_priority>
+            <!-- This id has to be unique in the whole system -->
+            <element_instance>
+                <id>y1</id>
+                <type>type_id</type>
+                <mappings>
+                    <input>
+                        <!--see example: map_y1_1: A, D, b-->
+                        <file_reference>y1_input.map</file_reference>
+                    </input>
+                    <input>
+                        <!--duplicate item, parsing should fail-->
+                        <file_reference>y2_input.map</file_reference>
+                    </input>
+                </mappings>
+            </element_instance>
+        </participant>
+        <participant>
+            <address>y2</address>
+            <init_priority>4</init_priority>
+            <start_priority>4</start_priority>
+            <element_instance>
+                <!-- This id has to be unique in the whole system -->
+                <id>y2</id>
+                <type>type_id</type>
+                <mappings>
+                    <input>
+                        <!--see example: map_y2_1: A, D, b-->
+                        <file_reference>y2_input.map</file_reference>
+                    </input>
+                </mappings>
+            </element_instance>
+        </participant>
+        <participant>
+            <address>w</address>
+            <init_priority>5</init_priority>
+            <start_priority>5</start_priority>
+            <element_instance>
+            <!-- This id has to be unique in the whole system -->
+            <id>w</id>
+            <type>type_id</type>
+                <mappings>
+                    <output>
+                        <!--see example: map_w_o: a, k-->
+                        <file_reference>w_output.map</file_reference>
+                    </output>
+                </mappings>
+            </element_instance>
+        </participant>
+    </participants>
+</system>

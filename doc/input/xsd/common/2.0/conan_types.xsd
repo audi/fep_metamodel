@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:fep="http://fep.vwgroup.com/common/2.0/types"
+    version="2.0.0" vc:minVersion="1.1"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+    <xs:import namespace="http://fep.vwgroup.com/common/2.0/types" schemaLocation="fep_types.xsd"/>
+
+    <xs:simpleType name="conan_compatible_string">
+        <xs:restriction base="fep:non_empty_norm_string">
+            <xs:pattern value="[0-9a-zA-Z._-]+"/>
+            <xs:minLength value="2"/>
+            <xs:maxLength value="51"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="conan_identifier">
+        <xs:sequence>
+            <xs:element name="name" type="conan_compatible_string"/>
+            <xs:element name="version" type="fep:version_type"/>
+            <xs:element name="user" type="conan_compatible_string" default="vwgroup"
+                minOccurs="0"/>
+            <xs:element name="channel" type="conan_compatible_string" default="stable"
+                minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

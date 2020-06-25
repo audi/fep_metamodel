@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://fep.vwgroup.com/element/2.0/timing"
+    xmlns:fep="http://fep.vwgroup.com/common/2.0/types"
+    xmlns:element_timing="http://fep.vwgroup.com/element/2.0/timing" version="2.0.0"
+    vc:minVersion="1.1" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+
+    <xs:import namespace="http://fep.vwgroup.com/common/2.0/types"
+        schemaLocation="../../common/2.0/fep_types.xsd"/>
+    <xs:include schemaLocation="../../common/2.0/timing_interface_types.xsd"/>
+
+    <xs:element name="element_timing">
+        <xs:annotation>
+            <xs:documentation>this file is an optional file to reconfigure the default timing_interface configuration.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="schema_version" type="fep:version_type">
+                    <xs:annotation>
+                        <xs:documentation>The schema version of the current file.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="header">
+                    <xs:annotation>
+                        <xs:documentation>The header section containing general information regarding the timing configuration.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="author" type="xs:string">
+                                <xs:annotation>
+                                    <xs:documentation>The author of the timing configuration.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="date_creation" type="xs:string">
+                                <xs:annotation>
+                                    <xs:documentation>The creation date of the timing configuration.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="date_change" type="xs:string">
+                                <xs:annotation>
+                                    <xs:documentation>The last change date of the timing configuration.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="description" type="xs:string">
+                                <xs:annotation>
+                                    <xs:documentation>A short description of the timing configuration.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="jobs">
+                    <xs:annotation>
+                        <xs:documentation>The jobs of this element.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="job" minOccurs="0" maxOccurs="unbounded"
+                                type="element_timing:job">
+                                <xs:annotation>
+                                    <xs:documentation>A configuration part of a single job of the element instance (it is important the job exists)</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

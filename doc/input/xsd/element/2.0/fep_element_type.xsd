@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://fep.vwgroup.com/element/2.0/type"
+    xmlns:fep="http://fep.vwgroup.com/common/2.0/types"
+    xmlns:conan_type="http://fep.vwgroup.com/common/2.0/conan_types"
+    xmlns:fep_type="http://fep.vwgroup.com/element/2.0/type"
+    version="2.0.0" vc:minVersion="1.1" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+    <xs:import namespace="http://fep.vwgroup.com/common/2.0/types"
+        schemaLocation="../../common/2.0/fep_types.xsd"/>
+    <xs:include schemaLocation="../../common/2.0/conan_types.xsd"/>
+    <xs:include schemaLocation="../../common/2.0/timing_interface_types.xsd"/>
+
+
+    <!-- THE MAIN DESCRIPTION FOR THE ELEMENT TYPE -->
+    <xs:complexType name="element_type">
+        <xs:sequence>
+            <xs:element name="schema_version" type="fep:version_type">
+                <xs:annotation>
+                    <xs:documentation>The schema version of the current file.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="id" type="fep_type:conan_identifier">
+                <xs:annotation>
+                    <xs:documentation>The type name of the element</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="display_name" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>The type name of the element by using a unique identifier
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A short description of the element type</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="author" type="xs:normalizedString">
+                <xs:annotation>
+                    <xs:documentation>Author information for this element type</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="category" type="fep:non_empty_norm_string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Optional category for this element type</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="configuration_interface">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="properties">
+                            <xs:annotation>
+                                <xs:documentation>Published properties of the element type
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="property" type="fep_type:property"
+                                        minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                            <xs:unique name="property_name">
+                                <xs:selector xpath="fep_type:property"/>
+                                <xs:field xpath="fep_type:name"/>
+                            </xs:unique>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="data_interfaces">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="inputs">
+                            <xs:annotation>
+                                <xs:documentation>Published data inputs
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="input" type="fep_type:data_description"
+                                        minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="outputs">
+                            <xs:annotation>
+                                <xs:documentation>Published data outputs
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="output" type="fep_type:data_description"
+                                        minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="data_name">
+                    <xs:selector xpath="*/*"/>
+                    <xs:field xpath="fep_type:name"/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="timing_interface" type="fep_type:timing_interface_type">
+                <xs:annotation>
+                    <xs:documentation>Published default jobs of this element types and its default job settings</xs:documentation>
+                </xs:annotation>
+                <xs:unique name="unique_job_name">
+                    <xs:selector xpath="fep_type:jobs/fep_type:job"/>
+                    <xs:field xpath="fep_type:name"/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="service_interfaces">
+                <xs:annotation>
+                    <xs:documentation>Published service interfaces of the element type
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="service_interface" type="fep_type:service_interface"
+                            minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="service_interface_name">
+                    <xs:selector xpath="fep_type:service_interface"/>
+                    <xs:field xpath="fep_type:name"/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="required_service_interfaces">
+                <xs:annotation>
+                    <xs:documentation>The service interfaces required of the element type. If used
+                        within a system description one of the other elements must provide this
+                        interface</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="required_service_interface"
+                            type="fep_type:required_service_interface" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- validation for the data inputs and the data output references in jobs for the input and out names in data_interface-->
+    <xs:element name="element_type" type="fep_type:element_type">
+        <xs:key name="input_key">
+            <xs:selector xpath="fep_type:data_interfaces/fep_type:inputs/fep_type:input"/>
+            <xs:field xpath="fep_type:name"/>
+        </xs:key>
+        <xs:key name="output_key">
+            <xs:selector xpath="fep_type:data_interfaces/fep_type:outputs/fep_type:output"/>
+            <xs:field xpath="fep_type:name"/>
+        </xs:key>
+        <xs:keyref name="input_reference_fk" refer="fep_type:input_key">
+            <xs:selector
+                xpath="fep_type:timing_interface/fep_type:jobs/fep_type:job/fep_type:data_references/fep_type:inputs/fep_type:input_reference"/>
+            <xs:field xpath="fep_type:name"/>
+        </xs:keyref>
+        <xs:keyref name="output_reference_fk" refer="fep_type:output_key">
+            <xs:selector
+                xpath="fep_type:timing_interface/fep_type:jobs/fep_type:job/fep_type:data_references/fep_type:outputs/fep_type:output_reference"/>
+            <xs:field xpath="fep_type:name"/>
+        </xs:keyref>
+    </xs:element>
+
+    <!-- USED FOR DATA INTERFACES and CONFIGURATION INTERFACE-->
+    <xs:complexType name="property_list_enumeration">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="value" type="xs:unsignedLong"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="property">
+        <xs:sequence>
+            <xs:element name="name" type="fep:non_empty_norm_string"/>
+            <xs:element name="type" type="fep:non_empty_norm_string"/>
+            <xs:element name="value" type="xs:string"/>
+            <xs:element name="list" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="property_list_enumeration"
+                            type="fep_type:property_list_enumeration" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="enumeration_name">
+                    <xs:selector xpath="fep_type:property_list_enumeration"/>
+                    <xs:field xpath="fep_type:name"/>
+                </xs:unique>
+                <xs:unique name="newUnique">
+                    <xs:selector xpath="fep_type:property_list_enumeration"/>
+                    <xs:field xpath="fep_type:value"/>
+                </xs:unique>
+            </xs:element>
+            <xs:element name="list_extendable" minOccurs="0" maxOccurs="1" default="false"/>
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:assert test="fep_type:type != 'enum' or count(fep_type:list) = 1"/>
+        <xs:assert
+            test="
+                fep_type:type != 'enum' or (some $enum_name in fep_type:list/fep_type:property_list_enumeration/fep_type:name
+                    satisfies $enum_name = fep_type:value)"/>
+        <xs:assert test="fep_type:type != 'bool' or fep_type:value castable as xs:boolean"/>
+        <xs:assert test="fep_type:type != 'int' or fep_type:value castable as xs:long"/>
+        <xs:assert test="fep_type:type != 'uint' or fep_type:value castable as xs:unsignedLong"/>
+        <xs:assert test="fep_type:type != 'double' or fep_type:value castable as xs:double"/>
+        <xs:assert test="fep_type:type != 'URI' or fep_type:value castable as xs:anyUri"/>
+    </xs:complexType>
+
+    <xs:complexType name="datatype_description">
+        <xs:sequence>
+            <xs:element name="metatype_name" type="fep:non_empty_norm_string"/>
+            <xs:element name="properties">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="property" type="fep_type:property" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="type_property_name">
+                    <xs:selector xpath="fep_type:property"/>
+                    <xs:field xpath="fep_type:name"/>
+                </xs:unique>
+            </xs:element>
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:assert
+            test="fep_type:metatype_name != 'ddl' or count(fep_type:properties/fep_type:property[fep_type:name = 'ddlstruct' and fep_type:type = 'string']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'ddl' or count(fep_type:properties/fep_type:property[fep_type:name = 'ddldescription' and fep_type:type = 'string']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'ddl' or count(fep_type:properties/fep_type:property[fep_type:name = 'ddlfileref' and fep_type:type = 'filename']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'plain-ctype' or count(fep_type:properties/fep_type:property[fep_type:name = 'datatype' and (fep_type:value = 'int8_t' or fep_type:value = 'int16_t' or fep_type:value = 'int32_t' or fep_type:value = 'int64_t' or fep_type:value = 'uint8_t' or fep_type:value = 'uint16_t' or fep_type:value = 'uint32_t' or fep_type:value = 'uint64_t' or fep_type:value = 'float' or fep_type:value = 'double') and fep_type:type = 'string']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'plain-array-ctype' or count(fep_type:properties/fep_type:property[fep_type:name = 'max_array_size' and fep_type:type = 'uint']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'plain-array-ctype' or count(fep_type:properties/fep_type:property[fep_type:name = 'datatype' and (fep_type:value = 'int8_t' or fep_type:value = 'int16_t' or fep_type:value = 'int32_t' or fep_type:value = 'int64_t' or fep_type:value = 'uint8_t' or fep_type:value = 'uint16_t' or fep_type:value = 'uint32_t' or fep_type:value = 'uint64_t' or fep_type:value = 'float' or fep_type:value = 'double') and fep_type:type = 'string']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'ascii-string' or count(fep_type:properties/fep_type:property[fep_type:name = 'max_size' and fep_type:type = 'uint']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'video' or count(fep_type:properties/fep_type:property[fep_type:name = 'height' and fep_type:type = 'uint']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'video' or count(fep_type:properties/fep_type:property[fep_type:name = 'width' and fep_type:type = 'uint']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'video' or count(fep_type:properties/fep_type:property[fep_type:name = 'pixelformat' and fep_type:type = 'string']) = 1"/>
+        <xs:assert
+            test="fep_type:metatype_name != 'video' or count(fep_type:properties/fep_type:property[fep_type:name = 'max_size' and fep_type:type = 'uint']) = 1"
+        />
+    </xs:complexType>
+
+    <!-- DESCRIPTION FOR THE DATA INTERFACES -->
+    <xs:complexType name="data_description">
+        <xs:sequence>
+            <xs:element name="name" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>The protocol of the interface</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="fep_type:datatype_description">
+                <xs:annotation>
+                    <xs:documentation>The data type description for input or output
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- USED FOR SERVICE INTERFACES -->
+    <xs:complexType name="interface_description">
+        <xs:sequence>
+            <xs:element name="protocol" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The protocol of the interface</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="file_reference" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The file reference to the description of the service
+                        interface. This depends on the protocol used - for JSON-RPC a reference to a
+                        json file must be provided.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- DESCRIPTION FOR THE PROVIDED Service INTERFACES -->
+    <xs:complexType name="service_interface">
+        <xs:sequence>
+            <xs:element name="name" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>The name of the published interface</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>The type of the interface (fep2 will use 'configuration' -
+                        description of properties to set 'service' - service interface on the bus
+                        (usually described by a json file)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version" type="fep:version_type">
+                <xs:annotation>
+                    <xs:documentation>The version of the published interface</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="interface_description" type="fep_type:interface_description">
+                <xs:annotation>
+                    <xs:documentation>The interface description</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- DESCRIPTION FOR THE REQUIRED INTERFACES -->
+    <xs:complexType name="required_service_interface">
+        <xs:sequence>
+            <xs:element name="type" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>The type of the interface required.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version" type="fep:version_type">
+                <xs:annotation>
+                    <xs:documentation>The version of the interface required</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="interface_description" type="fep_type:interface_description">
+                <xs:annotation>
+                    <xs:documentation>The interface description</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<property_file xmlns="http://fep.vwgroup.com/system/2.0/properties">
+    <schema_version>2.0.0</schema_version>
+    
+    <system_timing_properties>
+        <property>
+            <name></name>
+            <type>string</type>
+            <value>Timing2SystemTime</value>
+        </property>
+        <property>
+            <name>master_element_id</name>
+            <type>string</type>
+            <value>element1</value>
+        </property>
+        <property>
+            <name>master_clock_name</name>
+            <type>string</type>
+            <value>element1</value>
+        </property>
+        <property>
+            <name>master_time_factor</name>
+            <type>double</type>
+            <value>1.0</value>
+        </property>
+        <property>
+            <name>master_time_stepsize</name>
+            <type>uint</type>
+            <value>1</value>
+        </property>
+    </system_timing_properties>
+    
+    <!-- Defines the properties of the entire system -->
+    <system_properties>
+        <property>
+            <name>system_parameter</name>
+            <type>int</type>
+            <!-- Supported types must be defined !-->
+            <value>42</value>
+        </property>
+    </system_properties>
+    
+    <!-- Defines the properties of one particualar participant -->
+    <element_instances_properties>
+        <element_instance>
+            <!-- Unique name in the system -->
+            <id>FrontSensor</id>
+            <properties>
+                <property>
+                    <name>sensor_position/X</name>
+                    <type>float</type>
+                    <value>1.234</value>
+                </property>
+                <property>
+                    <name>sensor_position/Y</name>
+                    <type>float</type>
+                    <value>0.00</value>
+                </property>
+                <property>
+                    <name>sensor_position/Z</name>
+                    <type>float</type>
+                    <value>5.00</value>
+                </property>
+                <property>
+                    <name>parameter1</name>
+                    <type>string</type>
+                    <value>value1</value>
+                </property>
+            </properties>
+        </element_instance>
+    
+        <element_instance>
+            <id>BackSensor</id>
+            <properties>
+                <property>
+                    <name>sensor_position/X</name>
+                    <type>float</type>
+                    <value>1.0</value>
+                </property>
+            </properties>
+        </element_instance>
+    </element_instances_properties>
+</property_file>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<element_type xmlns="http://fep.vwgroup.com/element/2.0/type">
+    <schema_version>2.0.0</schema_version>
+    <id>
+        <name>fep_element_environment</name>
+        <version>1.1.0</version>
+        <user>fep</user>
+        <channel>integration</channel>
+    </id>
+    <display_name>Environment</display_name>  
+    <description>Environment from FEP SDK.</description>
+    <author>fep_team</author>
+    <configuration_interface>
+        <properties>
+        </properties>
+    </configuration_interface>
+    <data_interfaces>
+        <inputs>
+            <input>
+                <name>DriverCommand</name>
+                <type>
+                    <metatype_name>ddl</metatype_name>
+                    <properties>
+                        <property>
+                            <name>ddlstruct</name>
+                            <type>string</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <value>tDriverCtrl</value>
+                        </property>
+                        <property>
+                            <name>ddldescription</name>
+                            <type>string</type>
+                            <value>Driver Control</value>
+                        </property>
+                        <property>
+                            <name>ddlfileref</name>
+                            <type>filename</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <!-- all filereferences are related to this file-->
+                            <value>../description/timing_example.description</value>
+                        </property>
+                    </properties>
+                </type>
+            </input>
+        </inputs>
+        <outputs>
+            <output>
+                <name>PositionCarA</name>
+                <type>
+                    <metatype_name>ddl</metatype_name>
+                    <properties>
+                        <property>
+                            <name>ddlstruct</name>
+                            <type>string</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <value>tFEP_Examples_ObjectState</value>
+                        </property>
+                        <property>
+                            <name>ddldescription</name>
+                            <type>string</type>
+                            <value>Position A</value>
+                        </property>
+                        <property>
+                            <name>ddlfileref</name>
+                            <type>filename</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <!-- all filereferences are related to this file-->
+                            <value>../description/timing_example.description</value>
+                        </property>
+                    </properties>
+                </type>
+            </output>
+            <output>
+                <name>PositionCarB</name>
+                <type>
+                    <metatype_name>ddl</metatype_name>
+                    <properties>
+                        <property>
+                            <name>ddlstruct</name>
+                            <type>string</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <value>tFEP_Examples_ObjectState</value>
+                        </property>
+                        <property>
+                            <name>ddldescription</name>
+                            <type>string</type>
+                            <value>Position B</value>
+                        </property>
+                        <property>
+                            <name>ddlfileref</name>
+                            <type>filename</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <!-- all filereferences are related to this file-->
+                            <value>../description/timing_example.description</value>
+                        </property>
+                    </properties>
+                </type>
+            </output>
+            <output>
+                <name>PositionOwn</name>
+                <type>
+                    <metatype_name>ddl</metatype_name>
+                    <properties>
+                        <property>
+                            <name>ddlstruct</name>
+                            <type>string</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <value>tFEP_Examples_ObjectState</value>
+                        </property>
+                        <property>
+                            <name>ddldescription</name>
+                            <type>string</type>
+                            <value>Position Own</value>
+                        </property>
+                        <property>
+                            <name>ddlfileref</name>
+                            <type>filename</type>
+                            <!-- this file must be next to this element_type description file-->
+                            <!-- all filereferences are related to this file-->
+                            <value>../description/timing_example.description</value>
+                        </property>
+                    </properties>
+                </type>
+            </output>
+        </outputs>
+    </data_interfaces>
+    <timing_interface>
+        <jobs>
+            <job>
+                <name>SimulateCarA</name>
+                <cycle_time>100000</cycle_time>
+                <cycle_delay_time>0</cycle_delay_time>
+                <max_run_realtime>99999</max_run_realtime>
+                <run_realtime_violation>TS_IGNORE_RUNTIME_VIOLATION</run_realtime_violation>
+                <data_references>
+                    <inputs>
+                    </inputs>
+                    <outputs>
+                        <output_reference>
+                            <name>PositionCarA</name>
+                            <queue_size>10</queue_size>
+                        </output_reference>
+                    </outputs>
+                </data_references>
+            </job>
+            <job>
+                <name>SimulateCarB</name>
+                <cycle_time>100000</cycle_time>
+                <cycle_delay_time>0</cycle_delay_time>
+                <max_run_realtime>99999</max_run_realtime>
+                <run_realtime_violation>TS_IGNORE_RUNTIME_VIOLATION</run_realtime_violation>
+                <data_references>
+                    <inputs>
+                    </inputs>
+                    <outputs>
+                        <output_reference>
+                            <name>PositionCarB</name>
+                            <queue_size>10</queue_size>
+                        </output_reference>
+                    </outputs>
+                </data_references>
+            </job>
+            <job>
+                <name>SimulateOwn</name>
+                <cycle_time>100000</cycle_time>
+                <cycle_delay_time>0</cycle_delay_time>
+                <max_run_realtime>99999</max_run_realtime>
+                <run_realtime_violation>TS_IGNORE_RUNTIME_VIOLATION</run_realtime_violation>
+                <data_references>
+                    <inputs>
+                        <input_reference>
+                            <name>DriverCommand</name>
+                            <queue_size>10</queue_size>
+                        </input_reference>
+                    </inputs>
+                    <outputs>
+                        <output_reference>
+                            <name>PositionOwn</name>
+                            <queue_size>10</queue_size>
+                        </output_reference>
+                    </outputs>
+                </data_references>
+            </job>
+        </jobs>
+    </timing_interface>
+    <service_interfaces>
+    </service_interfaces>
+    <required_service_interfaces>
+    </required_service_interfaces>
+</element_type>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<element_timing xmlns:timing="http://fep.vwgroup.com/element/2.0/timing">
+    <schema_version>1.0.0</schema_version>
+    <header>
+        <author></author>
+        <date_creation></date_creation>
+        <date_change></date_change>
+        <description>Default Timing Configuration for Demo Timing 30 Example Driver</description>
+    </header>
+    <jobs>
+        <job>
+            <name>CheckDistanceAndDecide</name>
+            <!-- microseconds in simulation time-->
+            <cycle_time>100000</cycle_time>
+            <!-- microseconds in simulation of the delay to the cycle begin-->
+            <cycle_delay_time>0</cycle_delay_time>
+            <!-- 0 = do not watch 
+                    >0 = the run_realtime will be watched (can be cycle_time as maximum) -->
+            <max_run_realtime>0</max_run_realtime>
+            <!--TS_IGNORE_RUNTIME_VIOLATION,
+            /// A warning incident will be published when an operational time violation is detected
+            TS_WARN_ABOUT_RUNTIME_VIOLATION,
+            /// Configured outputs will not be published when an operational time violation is detected
+            TS_SKIP_OUTPUT_PUBLISH,
+            /// The job will abort and the error state is set
+            TS_SET_STM_TO_ERROR -->
+            <run_realtime_violation>TS_IGNORE_RUNTIME_VIOLATION</run_realtime_violation>
+            <data_references>
+                <inputs>
+                    <input_reference>
+                        <name>FrontDistance</name>
+                        <queue_size>10</queue_size>
+                    </input_reference>
+                    <input_reference>
+                        <name>BackDistance</name>
+                        <queue_size>10</queue_size>
+                    </input_reference>
+                </inputs>
+                <outputs>
+                    <output_reference>
+                        <name>DriverCommand</name>
+                        <queue_size>10</queue_size>
+                    </output_reference>
+                </outputs>
+            </data_references>
+        </job>
+    </jobs>
+</element_timing>

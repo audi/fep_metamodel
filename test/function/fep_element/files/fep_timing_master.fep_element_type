@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<element_type xmlns="http://fep.vwgroup.com/element/2.0/type">
+    <schema_version>2.0.0</schema_version>
+    <id>
+        <name>fep_element_timing_master</name>
+        <version>1.1.0</version>
+        <user>fep</user>
+        <channel>integration</channel>
+    </id>
+    <display_name>Environment.Timing_Master</display_name>  
+    <description>A general timing master FEP Element.</description>
+    <author>fep_team</author>
+    <configuration_interface>
+        <properties>
+            <property>
+                <name>ComponentConfig.Timing.TimingMaster.strMasterElement</name>
+                <type>string</type>
+                <value>TimingMaster</value>
+            </property>
+            <property>
+                <name>ComponentConfig.Timing.TimingMaster.strTriggerMode</name>
+                <type>string</type>
+                <value>SYSTEM_TIME</value>
+            </property>
+            <property>
+                <name>ComponentConfig.Timing.TimingMaster.fSpeedFactor</name>
+                <type>float</type>
+                <value>1.0</value>
+            </property>
+        </properties>
+    </configuration_interface>
+    <data_interfaces>
+        <inputs>
+        </inputs>
+        <outputs>
+        </outputs>
+    </data_interfaces>
+    <timing_interface>
+        <jobs>
+        </jobs>
+    </timing_interface>
+    <service_interfaces>
+    </service_interfaces>
+    <required_service_interfaces>
+    </required_service_interfaces>
+</element_type>

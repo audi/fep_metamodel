@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright @ 2020 Audi AG. All rights reserved.
+
+       This Source Code Form is subject to the terms of the Mozilla
+       Public License, v. 2.0. If a copy of the MPL was not distributed
+       with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+   If it is not possible or desirable to put the notice in a particular file, then
+   You may include the notice in a location (such as a LICENSE file in a
+   relevant directory) where a recipient would be likely to look for such a notice.
+
+   You may add additional accurate notices of copyright ownership.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://fep.vwgroup.com/system/2.0/properties"
+    xmlns:fep_system_properties="http://fep.vwgroup.com/system/2.0/properties"
+    xmlns:fep="http://fep.vwgroup.com/common/2.0/types" version="2.0.0" vc:minVersion="1.1"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+
+    <xs:import namespace="http://fep.vwgroup.com/common/2.0/types"
+        schemaLocation="../../common/2.0/fep_types.xsd"/>
+
+    <xs:element name="property_file">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="schema_version" type="fep:version_type">
+                    <xs:annotation>
+                        <xs:documentation>The schema version of the current file.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="system_timing_properties">
+                    <xs:annotation>
+                        <xs:documentation>Enumeration for all timing properties
+                        System Properties will be set after the System is in IDLE (FEP2) (or LOADED (FEP3)) State
+                    </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="property" minOccurs="0" maxOccurs="unbounded"
+                                type="fep_system_properties:property"> </xs:element>
+                        </xs:sequence>
+                        <!-- timing_configuration_type needs to be a predefined type or PropertyBased for a non predefined configuration -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type']) = 1"/>
+
+                        <!-- For the following checks each additional property is checked in a single assert to ease debug a error in the created xml document -->
+
+                        <!-- Check necessary additional properties for timing_configuration_type = Timing2SystemTime  -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2SystemTime']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_element_id']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2SystemTime']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_factor']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2SystemTime']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_stepsize']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2SystemTime']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_clock_name']) = 1)"/>
+
+                        <!-- No additional properties for timing_configuration_type = Timing2NoMaster needed -->
+
+                        <!-- Check necessary additional properties for timing_configuration_type = Timing2AFAP  -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_element_id']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_stepsize']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_clock_name']) = 1)"/>
+                        <!-- For timing_configuration_type = Timing2AFAP master_time_factor needs to be 0.0 or not present -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing2AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_factor']) = 0 or 
+                        count(fep_system_properties:property[fep_system_properties:name = 'master_time_factor' and fep_system_properties:value = '0.0']) = 1)"/>
+
+                        <!-- No additional properties for timing_configuration_type = Timing3NoMaster needed -->
+
+                        <!-- Check necessary additional properties for timing_configuration_type = Timing3ClockSyncOnlyInterpolation  -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3ClockSyncOnlyInterpolation']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_element_id']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3ClockSyncOnlyInterpolation']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'slave_time_stepsize']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3ClockSyncOnlyInterpolation']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_clock_name']) = 1)"/>
+
+                        <!-- Check necessary additional properties for timing_configuration_type = Timing3ClockSyncOnlyDiscrete  -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3ClockSyncOnlyDiscrete']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_element_id']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3ClockSyncOnlyDiscrete']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'slave_time_stepsize']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3ClockSyncOnlyDiscrete']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_clock_name']) = 1)"/>
+
+                        <!-- Check necessary additional properties for timing_configuration_type = Timing3DiscreteSteps  -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3DiscreteSteps']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_element_id']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3DiscreteSteps']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_stepsize']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3DiscreteSteps']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_clock_name']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3DiscreteSteps']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_factor']) = 1)"/>
+
+                        <!-- Check necessary additional properties for timing_configuration_type = Timing3AFAP  -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_element_id']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_stepsize']) = 1)"/>
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_clock_name']) = 1)"/>
+                        <!-- For timing_configuration_type = Timing3AFAP master_time_factor needs to be 0.0 or not present -->
+                    <xs:assert test="count(fep_system_properties:property[fep_system_properties:name = 'timing_configuration_type' and fep_system_properties:value = 'Timing3AFAP']) = 0 or 
+                        (count(fep_system_properties:property[fep_system_properties:name = 'master_time_factor']) = 0 or 
+                        count(fep_system_properties:property[fep_system_properties:name = 'master_time_factor' and fep_system_properties:value = '0.0']) = 1)"/>	
+
+                        <!-- timing_configuration_type = PropertyBased is user specific timing configuration. Therefore no checks can be defined. -->
+
+
+                        <!-- Checking Data Types -->
+                    <xs:assert test="count(fep_system_properties:property[not(fep_system_properties:name != 'timing_configuration_type' or (fep_system_properties:type = 'string' and 
+                                          (fep_system_properties:value = 'Timing2SystemTime' or fep_system_properties:value = 'Timing2NoMaster' or fep_system_properties:value = 'Timing2AFAP' or fep_system_properties:value = 'Timing3NoMaster' 
+                                          or fep_system_properties:value = 'Timing3ClockSyncOnlyInterpolation' or fep_system_properties:value = 'Timing3ClockSyncOnlyDiscrete' or fep_system_properties:value = 'Timing3DiscreteSteps' 
+                                          or fep_system_properties:value = 'Timing3AFAP' or fep_system_properties:value = 'PropertyBased')))]) = 0"/>
+                        <xs:assert
+                            test="count(fep_system_properties:property[not(fep_system_properties:name != 'master_element_id' or fep_system_properties:type = 'string')]) = 0"/>
+                        <xs:assert
+                            test="count(fep_system_properties:property[not(fep_system_properties:name != 'master_time_factor' or fep_system_properties:type = 'double')]) = 0"/>
+                        <xs:assert
+                            test="count(fep_system_properties:property[not(fep_system_properties:name != 'master_time_stepsize' or fep_system_properties:type = 'uint')]) = 0"/>
+                        <xs:assert
+                            test="count(fep_system_properties:property[not(fep_system_properties:name != 'slave_time_stepsize' or fep_system_properties:type = 'uint')]) = 0"/>
+                        <xs:assert
+                            test="count(fep_system_properties:property[not(fep_system_properties:name != 'master_clock_name' or fep_system_properties:type = 'string')]) = 0"
+                        />
+                    </xs:complexType>
+                    <xs:unique name="timing_property_name">
+                        <xs:selector xpath="fep_system_properties:property"/>
+                        <xs:field xpath="fep_system_properties:name"/>
+                    </xs:unique>
+                </xs:element>
+
+                <xs:element name="system_properties">
+                    <xs:annotation>
+                        <xs:documentation>Enumeration for all system properties
+                                      System Properties will be set after the System is in IDLE (FEP2) (or LOADED (FEP3)) State
+
+                                      System Properties will be set to the whole system (depending on technology used)
+                    </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="property" type="fep_system_properties:property"
+                                minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                    <xs:unique name="system_property_name">
+                        <xs:selector xpath="fep_system_properties:property"/>
+                        <xs:field xpath="fep_system_properties:name"/>
+                    </xs:unique>
+                </xs:element>
+
+                <xs:element name="element_instances_properties">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="element_instance" minOccurs="0" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>Enumeration for all properties of 
+                                    a uniquely named element_instance 
+                                    Enumeration for all system properties
+                                    Element instance properties will be set after the System is in IDLE (FEP2) (or LOADED (FEP3)) State.
+                                    this property list must NOT defined every element property out of the element_type! (only the one which changed) 
+                                </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="id" type="fep:non_empty_norm_string"/>
+                                        <xs:element name="properties">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="property"
+                                                  type="fep_system_properties:property"
+                                                  minOccurs="0" maxOccurs="unbounded"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                            <xs:unique name="property_name">
+                                                <xs:selector xpath="fep_system_properties:property"/>
+                                                <xs:field xpath="fep_system_properties:name"/>
+                                            </xs:unique>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                    <xs:unique name="element_id">
+                        <xs:selector xpath="fep_system_properties:element_instance"/>
+                        <xs:field xpath="fep_system_properties:id"/>
+                    </xs:unique>
+                </xs:element>
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- USED FOR THE PROPERTY FILE DESCRIPTION -->
+    <xs:complexType name="property">
+        <xs:sequence>
+            <xs:element name="name" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>Name of the property by PATH</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="fep:non_empty_norm_string">
+                <xs:annotation>
+                    <xs:documentation>The property type</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The property value encoded as string</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:any namespace="##other" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:assert test="fep_system_properties:type != 'bool' or fep_system_properties:value castable as xs:boolean"/>
+        <xs:assert test="fep_system_properties:type != 'int' or fep_system_properties:value castable as xs:long"/>
+        <xs:assert test="fep_system_properties:type != 'uint' or fep_system_properties:value castable as xs:unsignedLong"/>
+        <xs:assert test="fep_system_properties:type != 'double' or fep_system_properties:value castable as xs:double"/>
+        <xs:assert test="fep_system_properties:type != 'URI' or fep_system_properties:value castable as xs:anyUri"
+        />
+    </xs:complexType>
+
+</xs:schema>
